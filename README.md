@@ -1,64 +1,12 @@
 dejavu
 ==========
-
-Audio fingerprinting and recognition algorithm implemented in Python, see the explanation here:  
-[How it works](http://willdrevo.com/fingerprinting-and-audio-recognition-with-python/)
-
-Dejavu can memorize audio by listening to it once and fingerprinting it. Then by playing a song and recording microphone input or reading from disk, Dejavu attempts to match the audio against the fingerprints held in the database, returning the song being played. 
-
-Note: for voice recognition, *Dejavu is not the right tool!* Dejavu excels at recognition of exact signals with reasonable amounts of noise.
-
-## Quickstart with Docker
-
-First, install [Docker](https://docs.docker.com/get-docker/).
-
-```shell
-# build and then run our containers
-$ docker-compose build
-$ docker-compose up -d
-
-# get a shell inside the container
-$ docker-compose run python /bin/bash
-Starting dejavu_db_1 ... done
-root@f9ea95ce5cea:/code# python example_docker_postgres.py 
-Fingerprinting channel 1/2 for test/woodward_43s.wav
-Fingerprinting channel 1/2 for test/sean_secs.wav
-...
-
-# connect to the database and poke around
-root@f9ea95ce5cea:/code# psql -h db -U postgres dejavu
-Password for user postgres:  # type "password", as specified in the docker-compose.yml !
-psql (11.7 (Debian 11.7-0+deb10u1), server 10.7)
-Type "help" for help.
-
-dejavu=# \dt
-            List of relations
- Schema |     Name     | Type  |  Owner   
---------+--------------+-------+----------
- public | fingerprints | table | postgres
- public | songs        | table | postgres
-(2 rows)
-
-dejavu=# select * from fingerprints limit 5;
-          hash          | song_id | offset |        date_created        |       date_modified        
-------------------------+---------+--------+----------------------------+----------------------------
- \x71ffcb900d06fe642a18 |       1 |    137 | 2020-06-03 05:14:19.400153 | 2020-06-03 05:14:19.400153
- \xf731d792977330e6cc9f |       1 |    148 | 2020-06-03 05:14:19.400153 | 2020-06-03 05:14:19.400153
- \x71ff24aaeeb55d7b60c4 |       1 |    146 | 2020-06-03 05:14:19.400153 | 2020-06-03 05:14:19.400153
- \x29349c79b317d45a45a8 |       1 |    101 | 2020-06-03 05:14:19.400153 | 2020-06-03 05:14:19.400153
- \x5a052144e67d2248ccf4 |       1 |    123 | 2020-06-03 05:14:19.400153 | 2020-06-03 05:14:19.400153
-(10 rows)
-
-# then to shut it all down...
-$ docker-compose down
-```
-
-If you want to be able to use the microphone with the Docker container, you'll need to do a [little extra work](https://stackoverflow.com/questions/43312975/record-sound-on-ubuntu-docker-image). I haven't had the time to write this up, but if anyone wants to make a PR, I'll happily merge.
-
 ## Docker alternative on local machine
 
-Follow instructions in [INSTALLATION.md](INSTALLATION.md)
-
+# Installation 
+```bash 
+    conda env create -f environment.yml
+    sudo apt install ffmpeg mysql-server 
+```
 Next, you'll need to create a MySQL database where Dejavu can store fingerprints. For example, on your local setup:
 	
 	$ mysql -u root -p

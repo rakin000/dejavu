@@ -1,8 +1,8 @@
 {
     "database": {
         "host": "127.0.0.1",
-        "user": "root",
-        "password": "rootpass",
+        "user": "user",
+        "password": "password",
         "database": "dejavu"
     },
     "database_type": "mysql"
